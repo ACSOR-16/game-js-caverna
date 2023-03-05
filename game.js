@@ -29,7 +29,16 @@ function stratGame() {
   game.font = elementsSize + "px Verdana";
   game.textAlign = 'end';
 
-  for (let index = 1; index <= 10; index++) {
-    game.fillText(emojis["X"], elementsSize, elementsSize * index);
+  const map = maps[1];
+  const mapRows = map.trim().split('\n');
+  const mapColumns = mapRows.map( row => row.trim().split(''));
+  console.log({map, mapRows, mapColumns});
+
+  for (let indexRow = 1; indexRow <= 10; indexRow++) {
+    for (let indexColumn = 1; indexColumn <= 10; indexColumn++) {
+    
+      game.fillText(emojis[mapColumns[indexRow - 1][indexColumn - 1]], elementsSize * indexColumn, elementsSize * indexRow);
+      
+    }
   }
 }
