@@ -7,6 +7,7 @@ const buttonDown = document.querySelector(".down");
 
 let canvasSize;
 let elementsSize;
+const playerPosition = { x: undefined, y: undefined};
 
 window.addEventListener("resize", setCanvasSize)
 window.addEventListener("load", stratGame);
@@ -34,11 +35,12 @@ function stratGame() {
   game.textAlign = 'end';
 
   //construccion de los arrays multifuncionales
-  const map = maps[1];
+  const map = maps[0];
   const mapRows = map.trim().split('\n');
   const mapRowsColumns = mapRows.map( row => row.trim().split(''));
   console.log({map, mapRows, mapRowsColumns});
 
+  game.clearRect(0, 0, canvasSize, canvasSize);
   // Render de los elementos
   mapRowsColumns.forEach((row, rowI) => {
     row.forEach((column, columnI) => {
@@ -46,9 +48,24 @@ function stratGame() {
       const posX = elementsSize * (columnI + 1);
       const posY = elementsSize * (rowI + 1);
       game.fillText(emoji, posX, posY);
+
+      if (column == 'O') {
+        if (!playerPosition.x && !playerPosition.y) {
+          playerPosition.x = posX;
+          playerPosition.y = posY;
+          console.log({playerPosition});
+        }
+      }
+
       console.log({row, rowI, column, columnI});
     });
   });
+  movePlayer();
+} 
+
+function movePlayer() {
+  game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y );
+  
 }
 
 window.addEventListener('keydown', moveByKeys);
@@ -60,22 +77,30 @@ buttonDown.addEventListener("click", moveDown);
 function moveByKeys(event) {
   if (event.key == 'ArrowUp') moveUp();
   else if (event.key == 'ArrowLeft') moveLeft();
-  else if (event.key == 'ArrowRigth') moveRigth();
+  else if (event.key == 'ArrowRight') moveRigth();
   else if (event.key == 'ArrowDown') moveDown();
 }
 
 function moveUp() {
   console.log("hacia arrba");
+  playerPosition.y -= elementsSize;
+  stratGame();
 }
 
 function moveLeft() {
   console.log("hacia izquierda");
+  playerPosition.x -= elementsSize;
+  stratGame();
 }
 
 function moveRigth() {
   console.log("hacia derecha");
+  playerPosition.x += elementsSize;
+  stratGame();
 }
 
 function moveDown() {
-  console.log("hacia abajp");
+  console.log("hacia abajo");
+  playerPosition.y += elementsSize;
+  stratGame();
 }
