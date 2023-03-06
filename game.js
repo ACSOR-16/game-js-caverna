@@ -7,12 +7,14 @@ const buttonDown = document.querySelector(".down");
 
 let canvasSize;
 let elementsSize;
+let level = 0;
+
 const playerPosition = { x: undefined, y: undefined};
 const giftPosition = { x: undefined, y: undefined};
 let enemyPositions = [];
 
-window.addEventListener("resize", setCanvasSize)
 window.addEventListener("load", stratGame);
+window.addEventListener("resize", setCanvasSize)
 
 function setCanvasSize() {
     //Responsive con canvas 
@@ -37,10 +39,16 @@ function stratGame() {
   game.textAlign = 'end';
 
   //construccion de los arrays multifuncionales
-  const map = maps[0];
+  const map = maps[level];
+
+  if (!map) {
+    gameWin();
+    return;
+  }
+
   const mapRows = map.trim().split('\n');
   const mapRowsColumns = mapRows.map( row => row.trim().split(''));
-  console.log({map, mapRows, mapRowsColumns});
+  //console.log({map, mapRows, mapRowsColumns});
 
   enemyPositions = [];
   game.clearRect(0, 0, canvasSize, canvasSize);
@@ -65,7 +73,7 @@ function stratGame() {
         enemyPositions.push({x: posX, y: posY});
       }
 
-      console.log({row, rowI, column, columnI});
+      // console.log({row, rowI, column, columnI});
     });
   });
   movePlayer();
@@ -77,7 +85,7 @@ function movePlayer() {
   const gittColision = giftColisionX && giftColisionY;
 
   if (gittColision) {
-    console.log("siguente nivel");
+    levelWin();
   }
 
   const enemyColision = enemyPositions.find( enemy => {
@@ -92,6 +100,16 @@ function movePlayer() {
 
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y );
   
+}
+
+function levelWin() {
+  console.log('subiste de nivel');
+  level++;
+  stratGame();
+}
+
+function gameWin() {
+  console.log("juego terminado");
 }
 
 window.addEventListener('keydown', moveByKeys);
