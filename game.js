@@ -31,14 +31,16 @@ function stratGame() {
 
   const map = maps[1];
   const mapRows = map.trim().split('\n');
-  const mapColumns = mapRows.map( row => row.trim().split(''));
-  console.log({map, mapRows, mapColumns});
+  const mapRowsColumns = mapRows.map( row => row.trim().split(''));
+  console.log({map, mapRows, mapRowsColumns});
 
-  for (let indexRow = 1; indexRow <= 10; indexRow++) {
-    for (let indexColumn = 1; indexColumn <= 10; indexColumn++) {
-    
-      game.fillText(emojis[mapColumns[indexRow - 1][indexColumn - 1]], elementsSize * indexColumn, elementsSize * indexRow);
-      
-    }
-  }
+  mapRowsColumns.forEach((row, rowI) => {
+    row.forEach((column, columnI) => {
+      const emoji = emojis[column];
+      const posX = elementsSize * (columnI + 1);
+      const posY = elementsSize * (rowI + 1);
+      game.fillText(emoji, posX, posY);
+      console.log({row, rowI, column, columnI});
+    });
+  });
 }
