@@ -8,6 +8,7 @@ const buttonDown = document.querySelector(".down");
 let canvasSize;
 let elementsSize;
 let level = 0;
+let lives = 3;
 
 const playerPosition = { x: undefined, y: undefined};
 const giftPosition = { x: undefined, y: undefined};
@@ -95,7 +96,7 @@ function movePlayer() {
   });
   
   if (enemyColision) {
-    console.log("duelo, estas frente a un enemigo");
+    levelFail();
   }
 
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y );
@@ -105,6 +106,20 @@ function movePlayer() {
 function levelWin() {
   console.log('subiste de nivel');
   level++;
+  stratGame();
+}
+
+function levelFail() {
+  console.log('chocaste con alg XD');
+  lives--;
+  
+  if (lives <= 0) {
+    level = 0;
+    lives = 3; 
+  }
+  
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
   stratGame();
 }
 
