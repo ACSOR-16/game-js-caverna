@@ -32,7 +32,7 @@ function stratGame() {
   console.log({canvasSize, elementsSize});
 
   game.font = elementsSize + "px Verdana";
-  game.textAlign = 'end';
+  game.textAlign = 'right';
 
   //construccion de los arrays multifuncionales
   const map = maps[0];
@@ -83,24 +83,40 @@ function moveByKeys(event) {
 
 function moveUp() {
   console.log("hacia arrba");
-  playerPosition.y -= elementsSize;
-  stratGame();
+  if (Math.floor(playerPosition.y - elementsSize) < elementsSize) {
+    console.log("out");
+  } else {
+    playerPosition.y -= elementsSize;
+    stratGame();
+  }
 }
 
 function moveLeft() {
   console.log("hacia izquierda");
+  if (Math.floor(playerPosition.x - elementsSize) < elementsSize) {
+    console.log("out");
+  } else {
   playerPosition.x -= elementsSize;
   stratGame();
+  }
 }
 
 function moveRigth() {
   console.log("hacia derecha");
+  if (Math.floor(playerPosition.x + elementsSize) > canvasSize) {
+    console.log("out");
+  } else {
   playerPosition.x += elementsSize;
   stratGame();
+  }
 }
 
 function moveDown() {
   console.log("hacia abajo");
+  if (Math.floor(playerPosition.y + elementsSize) > canvasSize) {
+    console.log("out");
+  } else {
   playerPosition.y += elementsSize;
   stratGame();
+  }
 }
