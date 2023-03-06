@@ -4,6 +4,7 @@ const buttonUp = document.querySelector(".up");
 const buttonLeft = document.querySelector(".left"); 
 const buttonRigth = document.querySelector(".rigth"); 
 const buttonDown = document.querySelector(".down"); 
+const spanLives = document.querySelector("#lives");
 
 let canvasSize;
 let elementsSize;
@@ -46,6 +47,8 @@ function stratGame() {
     gameWin();
     return;
   }
+
+  showLives();
 
   const mapRows = map.trim().split('\n');
   const mapRowsColumns = mapRows.map( row => row.trim().split(''));
@@ -112,7 +115,7 @@ function levelWin() {
 function levelFail() {
   console.log('chocaste con alg XD');
   lives--;
-  
+
   if (lives <= 0) {
     level = 0;
     lives = 3; 
@@ -125,6 +128,14 @@ function levelFail() {
 
 function gameWin() {
   console.log("juego terminado");
+}
+
+function showLives() {
+  const heartArray = Array(lives).fill(emojis['HEART'])
+  
+  spanLives.innerHTML = "";
+  heartArray.forEach( heart => spanLives.append(heart))
+
 }
 
 window.addEventListener('keydown', moveByKeys);
