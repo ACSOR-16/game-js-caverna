@@ -1,5 +1,9 @@
 const canvas = document.querySelector(".game");
 const game = canvas.getContext("2d");
+const buttonUp = document.querySelector(".up"); 
+const buttonLeft = document.querySelector(".left"); 
+const buttonRigth = document.querySelector(".rigth"); 
+const buttonDown = document.querySelector(".down"); 
 
 let canvasSize;
 let elementsSize;
@@ -29,11 +33,13 @@ function stratGame() {
   game.font = elementsSize + "px Verdana";
   game.textAlign = 'end';
 
+  //construccion de los arrays multifuncionales
   const map = maps[1];
   const mapRows = map.trim().split('\n');
   const mapRowsColumns = mapRows.map( row => row.trim().split(''));
   console.log({map, mapRows, mapRowsColumns});
 
+  // Render de los elementos
   mapRowsColumns.forEach((row, rowI) => {
     row.forEach((column, columnI) => {
       const emoji = emojis[column];
@@ -43,4 +49,33 @@ function stratGame() {
       console.log({row, rowI, column, columnI});
     });
   });
+}
+
+window.addEventListener('keydown', moveByKeys);
+buttonUp.addEventListener("click", moveUp);
+buttonLeft.addEventListener("click", moveLeft);
+buttonRigth.addEventListener("click", moveRigth);
+buttonDown.addEventListener("click", moveDown);
+
+function moveByKeys(event) {
+  if (event.key == 'ArrowUp') moveUp();
+  else if (event.key == 'ArrowLeft') moveLeft();
+  else if (event.key == 'ArrowRigth') moveRigth();
+  else if (event.key == 'ArrowDown') moveDown();
+}
+
+function moveUp() {
+  console.log("hacia arrba");
+}
+
+function moveLeft() {
+  console.log("hacia izquierda");
+}
+
+function moveRigth() {
+  console.log("hacia derecha");
+}
+
+function moveDown() {
+  console.log("hacia abajp");
 }
