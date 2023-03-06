@@ -8,6 +8,7 @@ const buttonDown = document.querySelector(".down");
 let canvasSize;
 let elementsSize;
 const playerPosition = { x: undefined, y: undefined};
+const giftPosition = { x: undefined, y: undefined};
 
 window.addEventListener("resize", setCanvasSize)
 window.addEventListener("load", stratGame);
@@ -15,9 +16,9 @@ window.addEventListener("load", stratGame);
 function setCanvasSize() {
     //Responsive con canvas 
     if (window.innerHeight > window.innerWidth) {
-      canvasSize = window.innerWidth * 0.8;
+      canvasSize = window.innerWidth * 0.7;
     } else {
-      canvasSize = window.innerHeight * 0.8;
+      canvasSize = window.innerHeight * 0.7;
     }
   
     canvas.setAttribute("width", canvasSize);
@@ -32,7 +33,7 @@ function stratGame() {
   console.log({canvasSize, elementsSize});
 
   game.font = elementsSize + "px Verdana";
-  game.textAlign = 'right';
+  game.textAlign = 'end';
 
   //construccion de los arrays multifuncionales
   const map = maps[0];
@@ -55,6 +56,9 @@ function stratGame() {
           playerPosition.y = posY;
           console.log({playerPosition});
         }
+      } else if(column == "I") {
+        giftPosition.x = posX;
+        giftPosition.y = posY ;
       }
 
       console.log({row, rowI, column, columnI});
@@ -64,6 +68,14 @@ function stratGame() {
 } 
 
 function movePlayer() {
+  const giftColisionX = playerPosition.x == giftPosition.x;
+  const giftColisionY = playerPosition.y == giftPosition.y;
+  const gittColision = giftColisionX && giftColisionY;
+
+  if (gittColision) {
+    console.log("siguente nivel");
+  }
+  
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y );
   
 }
@@ -83,7 +95,7 @@ function moveByKeys(event) {
 
 function moveUp() {
   console.log("hacia arrba");
-  if (Math.floor(playerPosition.y - elementsSize) < elementsSize) {
+  if ((playerPosition.y - elementsSize) < elementsSize) {
     console.log("out");
   } else {
     playerPosition.y -= elementsSize;
@@ -93,7 +105,7 @@ function moveUp() {
 
 function moveLeft() {
   console.log("hacia izquierda");
-  if (Math.floor(playerPosition.x - elementsSize) < elementsSize) {
+  if ((playerPosition.x - elementsSize) < elementsSize) {
     console.log("out");
   } else {
   playerPosition.x -= elementsSize;
@@ -103,7 +115,7 @@ function moveLeft() {
 
 function moveRigth() {
   console.log("hacia derecha");
-  if (Math.floor(playerPosition.x + elementsSize) > canvasSize) {
+  if ((playerPosition.x + elementsSize) > canvasSize) {
     console.log("out");
   } else {
   playerPosition.x += elementsSize;
@@ -113,7 +125,7 @@ function moveRigth() {
 
 function moveDown() {
   console.log("hacia abajo");
-  if (Math.floor(playerPosition.y + elementsSize) > canvasSize) {
+  if ((playerPosition.y + elementsSize) > canvasSize) {
     console.log("out");
   } else {
   playerPosition.y += elementsSize;
