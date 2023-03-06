@@ -9,6 +9,7 @@ let canvasSize;
 let elementsSize;
 const playerPosition = { x: undefined, y: undefined};
 const giftPosition = { x: undefined, y: undefined};
+let enemyPositions = [];
 
 window.addEventListener("resize", setCanvasSize)
 window.addEventListener("load", stratGame);
@@ -41,6 +42,7 @@ function stratGame() {
   const mapRowsColumns = mapRows.map( row => row.trim().split(''));
   console.log({map, mapRows, mapRowsColumns});
 
+  enemyPositions = [];
   game.clearRect(0, 0, canvasSize, canvasSize);
   // Render de los elementos
   mapRowsColumns.forEach((row, rowI) => {
@@ -56,9 +58,11 @@ function stratGame() {
           playerPosition.y = posY;
           console.log({playerPosition});
         }
-      } else if(column == "I") {
+      } else if(column == 'I') {
         giftPosition.x = posX;
         giftPosition.y = posY ;
+      } else if (column == 'X') {
+        enemyPositions.push({x: posX, y: posY});
       }
 
       console.log({row, rowI, column, columnI});
@@ -75,7 +79,17 @@ function movePlayer() {
   if (gittColision) {
     console.log("siguente nivel");
   }
+
+  const enemyColision = enemyPositions.find( enemy => {
+    const enemyColisionX = enemy.x == playerPosition.x;
+    const enemyColisionY = enemy.y == playerPosition.y;
+    return enemyColisionX && enemyColisionY;
+  });
   
+  if (enemyColision) {
+    console.log("duelo, estas frente a un enemigo");
+  }
+
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y );
   
 }
