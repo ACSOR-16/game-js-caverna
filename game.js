@@ -5,11 +5,16 @@ const buttonLeft = document.querySelector(".left");
 const buttonRigth = document.querySelector(".rigth"); 
 const buttonDown = document.querySelector(".down"); 
 const spanLives = document.querySelector("#lives");
+const spanTime = document.querySelector("#time");
 
 let canvasSize;
 let elementsSize;
 let level = 0;
 let lives = 3;
+
+let timeStart;
+let timePlayer;
+let timeInterval;
 
 const playerPosition = { x: undefined, y: undefined};
 const giftPosition = { x: undefined, y: undefined};
@@ -48,6 +53,10 @@ function stratGame() {
     return;
   }
 
+  if (!timeStart) {
+    timeStart = Date.now();
+    timeInterval = setInterval(ShowTime, 100);
+  }
   showLives();
 
   const mapRows = map.trim().split('\n');
@@ -118,7 +127,8 @@ function levelFail() {
 
   if (lives <= 0) {
     level = 0;
-    lives = 3; 
+    lives = 3;
+    timeStart = undefined; 
   }
   
   playerPosition.x = undefined;
@@ -128,6 +138,7 @@ function levelFail() {
 
 function gameWin() {
   console.log("juego terminado");
+  clearInterval(timeInterval);
 }
 
 function showLives() {
@@ -136,6 +147,10 @@ function showLives() {
   spanLives.innerHTML = "";
   heartArray.forEach( heart => spanLives.append(heart))
 
+}
+
+function ShowTime() {
+  spanTime.innerHTML = Date.now() - timeStart;
 }
 
 window.addEventListener('keydown', moveByKeys);
