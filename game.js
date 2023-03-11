@@ -6,6 +6,8 @@ const buttonRigth = document.querySelector(".rigth");
 const buttonDown = document.querySelector(".down"); 
 const spanLives = document.querySelector("#lives");
 const spanTime = document.querySelector("#time");
+const spanRecord = document.querySelector("#record");
+const pResult = document.querySelector("#result");
 
 let canvasSize;
 let elementsSize;
@@ -56,6 +58,7 @@ function stratGame() {
   if (!timeStart) {
     timeStart = Date.now();
     timeInterval = setInterval(ShowTime, 100);
+    showRecord();
   }
   showLives();
 
@@ -139,6 +142,22 @@ function levelFail() {
 function gameWin() {
   console.log("juego terminado");
   clearInterval(timeInterval);
+
+  const recordTime = localStorage.getItem('record_time');
+  const playerTime = Date.now() - timeStart;
+
+  if (recordTime) {
+    if (recordTime >= playerTime) {
+      localStorage.setItem('record_time', playerTime);
+      pResult.innerHTML = "SUPERASTE LA MARCA";
+    } else {
+      pResult.innerHTML = "Intentalo de nuevo, supera tu limie";
+    }
+  } else {
+    localStorage.setItem('record_time', playerTime);
+    pResult.innerHTML = "Buen inicio, Pero puedes hacerlo mejor"
+  }
+  console.log({recordTime, playerTimeS});
 }
 
 function showLives() {
@@ -151,6 +170,9 @@ function showLives() {
 
 function ShowTime() {
   spanTime.innerHTML = Date.now() - timeStart;
+}
+function showRecord() {
+  spanRecord.innerHTML = localStorage.getItem('record_time');
 }
 
 window.addEventListener('keydown', moveByKeys);
