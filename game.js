@@ -23,7 +23,7 @@ const giftPosition = { x: undefined, y: undefined};
 let enemyPositions = [];
 
 window.addEventListener("load", stratGame);
-window.addEventListener("resize", setCanvasSize)
+window.addEventListener("resize", setCanvasSize);
 
 function setCanvasSize() {
     //Responsive con canvas 
@@ -32,12 +32,16 @@ function setCanvasSize() {
     } else {
       canvasSize = window.innerHeight * 0.7;
     }
+
+    canvasSize = Number(canvasSize.toFixed(0));
   
     canvas.setAttribute("width", canvasSize);
     canvas.setAttribute("height", canvasSize);
   
     //Tamanio de los elementos de dentro de canvas
     elementsSize = canvasSize / 10;
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
     stratGame();
 }
 
@@ -60,11 +64,11 @@ function stratGame() {
     timeInterval = setInterval(ShowTime, 100);
     showRecord();
   }
-  showLives();
-
+  
   const mapRows = map.trim().split('\n');
   const mapRowsColumns = mapRows.map( row => row.trim().split(''));
   //console.log({map, mapRows, mapRowsColumns});
+  showLives();
 
   enemyPositions = [];
   game.clearRect(0, 0, canvasSize, canvasSize);
@@ -88,7 +92,7 @@ function stratGame() {
       } else if (column == 'X') {
         enemyPositions.push({x: posX, y: posY});
       }
-
+      game.fillText(emoji, posX, posY);
       // console.log({row, rowI, column, columnI});
     });
   });
@@ -96,8 +100,8 @@ function stratGame() {
 } 
 
 function movePlayer() {
-  const giftColisionX = playerPosition.x == giftPosition.x;
-  const giftColisionY = playerPosition.y == giftPosition.y;
+  const giftColisionX = playerPosition.x.toFixed(3) == giftPosition.x.toFixed(3);
+  const giftColisionY = playerPosition.y.toFixed(3) == giftPosition.y.toFixed(3);
   const gittColision = giftColisionX && giftColisionY;
 
   if (gittColision) {
@@ -105,8 +109,8 @@ function movePlayer() {
   }
 
   const enemyColision = enemyPositions.find( enemy => {
-    const enemyColisionX = enemy.x == playerPosition.x;
-    const enemyColisionY = enemy.y == playerPosition.y;
+    const enemyColisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3);
+    const enemyColisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3);
     return enemyColisionX && enemyColisionY;
   });
   
